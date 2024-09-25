@@ -1,5 +1,35 @@
 {
   "dependencies": {
+    "com.cysharp.r3": {
+      "version": "https://github.com/Cysharp/R3.git?path=src/R3.Unity/Assets/R3.Unity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.modules.imgui": "1.0.0"
+      },
+      "hash": "2eaf201aabbbcb8d84c447cdd29201e457a4472a"
+    },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "83d8a2b424a2ee7137f8671770e9acb2b9d325f0"
+    },
+    "com.github-glitchenzo.nugetforunity": {
+      "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a011c51ed65c9abc3151a7a408bc70d408352933"
+    },
+    "com.svermeulen.extenject": {
+      "version": "https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject/Source",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "acfb232f623bcd3573935ac6023ee9b2eaaddb06"
+    },
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,
