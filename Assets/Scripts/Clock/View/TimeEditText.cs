@@ -37,7 +37,7 @@ namespace NauRa.ClockApp.Clock.View
                 SetTextToCurrentTime();
                 return;
             }
-            Value.Value = Value.Value.GetValueOrDefault(DateTime.MinValue) + time;
+            Value.Value = Value.Value.GetValueOrDefault(DateTime.MinValue).Date + time;
         }
 
         private void SetTextToCurrentTime()
