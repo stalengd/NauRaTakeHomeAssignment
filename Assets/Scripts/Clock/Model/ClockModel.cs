@@ -7,11 +7,13 @@ namespace NauRa.ClockApp.Clock.Model
     {
         public ReadOnlyReactiveProperty<DateTime?> CurrentTime => _currentTime;
         public ReadOnlyReactiveProperty<DateTime?> AlarmTime => _alarmTime;
+        public Observable<DateTime> AlarmRinged => _alarmRinged;
 
         private DateTime? _baselineTime;
         private TimeSpan _passedFromBaseline;
         private readonly ReactiveProperty<DateTime?> _currentTime = new(null);
         private readonly ReactiveProperty<DateTime?> _alarmTime = new(null);
+        private readonly ReactiveCommand<DateTime> _alarmRinged = new();
 
         public void SetAbsoluteTime(DateTime time)
         {
@@ -37,7 +39,9 @@ namespace NauRa.ClockApp.Clock.Model
                 throw new ArgumentException("You should not tick negative amount of time", nameof(amount));
             }
             _passedFromBaseline += amount;
+            var prevTime = _currentTime.Value;
             RefreshCurrentTime();
+            TryRingAlarm(prevTime, _currentTime.Value);
         }
 
         private void RefreshCurrentTime()
@@ -48,6 +52,22 @@ namespace NauRa.ClockApp.Clock.Model
                 return;
             }
             _currentTime.Value = baselineTime + _passedFromBaseline;
+        }
+
+        private bool TryRingAlarm(DateTime? prevTimeMaybe, DateTime? currentTimeMaybe)
+        {
+            if (prevTimeMaybe is not { } prevTime ||
+                currentTimeMaybe is not { } currentTime ||
+                _alarmTime.Value is not { } alarmTime)
+            {
+                return false;
+            }
+            if (prevTime.TimeOfDay >= alarmTime.TimeOfDay || currentTime.TimeOfDay < alarmTime.TimeOfDay)
+            {
+                return false;
+            }
+            _alarmRinged.Execute(alarmTime);
+            return true;
         }
     }
 }

@@ -31,6 +31,9 @@ namespace NauRa.ClockApp.Clock.View
             _clockModel.AlarmTime
                 .Subscribe(OnAlarmTimeChanged)
                 .AddTo(ref _disposables);
+            _clockModel.AlarmRinged
+                .Subscribe(OnAlarmRing)
+                .AddTo(ref _disposables);
             _clockView.EditAlarmClicked
                 .Subscribe(_ => OnEditAlarmPressed())
                 .AddTo(ref _disposables);
@@ -39,6 +42,9 @@ namespace NauRa.ClockApp.Clock.View
                 .AddTo(ref _disposables);
             _clockView.TimeEdited
                 .Subscribe(OnTimeEdited)
+                .AddTo(ref _disposables);
+            _clockView.StopAlarmRingClicked
+                .Subscribe(_ => OnStopAlarmRingPressed())
                 .AddTo(ref _disposables);
         }
 
@@ -93,6 +99,16 @@ namespace NauRa.ClockApp.Clock.View
         private void OnAlarmTimeChanged(DateTime? time)
         {
             DisplayAlarm(time, isInstant: false);
+        }
+
+        private void OnAlarmRing(DateTime time)
+        {
+            _clockView.RingAlarm();
+        }
+
+        private void OnStopAlarmRingPressed()
+        {
+            _clockView.StopRingAlarm();
         }
     }
 }
