@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3601096404f499943938bfc81a6a2b1b, type: 3}
   m_Name: ClockConfig
   m_EditorClassIdentifier: 
-  _currentTimeLoadIntervalSeconds: 60
+  _currentTimeLoadIntervalSeconds: 3600
