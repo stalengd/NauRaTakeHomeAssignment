@@ -31,13 +31,19 @@ namespace NauRa.ClockApp.Clock.View
         public void SetAlarm(DateTime? time, bool isInstant)
         {
             _alarmDisplay.SetTime(time, isInstant);
+        }
+
+        public void StartAlarmEdit(DateTime? time)
+        {
+            _edit.SetActive(true);
+            _editingIndicator.SetActive(true);
             _edit.Value.Value = time;
         }
 
-        public void ToggleAlarmEdit(bool isEditActive)
+        public void StopAlarmEdit()
         {
-            _edit.SetActive(isEditActive);
-            _editingIndicator.SetActive(isEditActive);
+            _edit.SetActive(false);
+            _editingIndicator.SetActive(false);
         }
 
         public void RingAlarm()

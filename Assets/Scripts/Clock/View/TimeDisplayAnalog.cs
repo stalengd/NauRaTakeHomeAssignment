@@ -18,7 +18,14 @@ namespace NauRa.ClockApp.Clock.View
 
         public override void SetTime(DateTime? dateTime, bool isInstant)
         {
-            var time = dateTime.GetValueOrDefault(DateTime.MinValue).TimeOfDay;
+            if (dateTime is not { } dateTimeValue)
+            {
+                _hourHand.gameObject.SetActive(false);
+                _minuteHand.gameObject.SetActive(false);
+                _secondHand.gameObject.SetActive(false);
+                return;
+            }
+            var time = dateTimeValue.TimeOfDay;
             SetHand(_hourHand, GetHoursAngle(time), isInstant);
             SetHand(_minuteHand, GetMinutesAngle(time), isInstant);
             SetHand(_secondHand, GetSecondsAngle(time), isInstant);
@@ -26,6 +33,7 @@ namespace NauRa.ClockApp.Clock.View
 
         private void SetHand(Transform hand, float angle, bool isInstant)
         {
+            hand.gameObject.SetActive(true);
             var duration = isInstant ? 0f : _tweenDurationSeconds;
             var tweener = hand.DOLocalRotate(new(0, 0, Mathf.Repeat(angle, 360)), duration)
                 .From(hand.rotation.eulerAngles)

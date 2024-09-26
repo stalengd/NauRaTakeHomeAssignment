@@ -24,7 +24,7 @@ namespace NauRa.ClockApp.Clock.View
         {
             DisplayTime(_clockModel.CurrentTime.CurrentValue, isInstant: true);
             DisplayAlarm(_clockModel.AlarmTime.CurrentValue, isInstant: true);
-            _clockView.ToggleAlarmEdit(false);
+            _clockView.StopAlarmEdit();
             _clockModel.CurrentTime
                 .Subscribe(OnCurrentTimeChanged)
                 .AddTo(ref _disposables);
@@ -66,13 +66,14 @@ namespace NauRa.ClockApp.Clock.View
         private void OnEditAlarmPressed()
         {
             _isEditing = !_isEditing;
-            _clockView.ToggleAlarmEdit(_isEditing);
             if (_isEditing)
             {
                 _editedTime = null;
+                _clockView.StartAlarmEdit(_clockModel.AlarmTime.CurrentValue ?? _clockModel.CurrentTime.CurrentValue);
             }
             else
             {
+                _clockView.StopAlarmEdit();
                 if (_editedTime.HasValue)
                 {
                     _clockModel.SetAlarm(_editedTime.Value);
@@ -87,6 +88,10 @@ namespace NauRa.ClockApp.Clock.View
 
         private void OnTimeEdited(DateTime? time)
         {
+            if (!_isEditing)
+            {
+                return;
+            }
             _editedTime = time;
             DisplayAlarm(time, isInstant: true);
         }
